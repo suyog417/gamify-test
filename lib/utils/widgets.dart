@@ -1,11 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:intl/intl.dart';
-import 'package:kgamify/bloc/game_mode_bloc.dart';
 import 'package:kgamify/screens/select_game_mode.dart';
-
-import 'models/game_mode_model.dart';
 
 class ChampionshipInfo extends StatelessWidget {
   final String startDate;
