@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "4482910880",
+    "project_id": "kgamify-test",
+    "storage_bucket": "kgamify-test.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:4482910880:android:fb393e1b1acc23d0c817c5",
+        "android_client_info": {
+          "package_name": "com.example.kgamify"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDYI0jCAzsT3Qkl1XBeU_CDEtGgA-UNa24"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

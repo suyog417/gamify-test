@@ -1,0 +1,1 @@
+{"flutter":{"platforms":{"android":{"default":{"projectId":"kgamify-test","appId":"1:4482910880:android:fb393e1b1acc23d0c817c5","fileOutput":"android/app/google-services.json"}},"dart":{"lib/firebase_options.dart":{"projectId":"kgamify-test","configurations":{"android":"1:4482910880:android:fb393e1b1acc23d0c817c5","ios":"1:4482910880:ios:f0f5344a473e1b5ec817c5"}}}}}}

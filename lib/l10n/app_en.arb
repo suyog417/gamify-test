@@ -1,0 +1,15 @@
+{
+  "playQuest" : "PlayQuest",
+  "selectChampionship":"Select Championship",
+  "search" : "Search",
+  "selectALanguageToProceed": "Select a language to proceed",
+  "myAccount": "My Account",
+  "analytics" : "Analytics",
+  "sortBy" : "Sort By",
+  "qualification" : "Qualification",
+  "startTIme" : "Start Time",
+  "endTime" : "End Time",
+  "categoryName" : "Category Name",
+  "logOut" : "Log Out",
+  "time" : "Time"
+}
