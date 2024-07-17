@@ -6,12 +6,7 @@ import 'package:kgamify/bloc/game_mode_bloc.dart';
 import 'package:kgamify/bloc/questions_bloc.dart';
 import 'package:kgamify/bloc/theme_bloc.dart';
 import 'package:kgamify/bloc/timer/timer_bloc.dart';
-import 'package:kgamify/screens/question.dart';
-import 'package:kgamify/screens/sign_up.dart';
-// import 'package:kgamify/screens/sign_up.dart';
 import 'package:kgamify/utils/exports.dart';
-// import 'package:kgamify/utils/models/championship_category_model.dart';
-// import 'package:kgamify/utils/repositories/categories_repository.dart';
 
 void main() async {
   await Hive.initFlutter();
@@ -73,7 +68,7 @@ class MyApp extends StatelessWidget {
           // else if(Hive.box("UserData").get("userName",defaultValue: null) == null){
           //   return const SignUp();
           // }
-          return const Question(questionsList: [],);
+          return const LandingPage();
         },),
       ),
     );

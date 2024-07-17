@@ -1,6 +1,7 @@
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
-import 'package:kgamify/utils/validator_constants.dart';
+import 'package:kgamify/utils/exports.dart';
+import 'package:kgamify/utils/widgets.dart';
 
 class SignUp extends StatefulWidget {
   const SignUp({super.key});
@@ -23,6 +24,9 @@ class _SignUpState extends State<SignUp> {
   @override
   void dispose() {
     // TODO: implement dispose
+    if(FocusManager.instance.primaryFocus!.hasFocus){
+      FocusManager.instance.primaryFocus!.unfocus();
+    }
     _emailController.dispose();
     super.dispose();
   }
@@ -35,19 +39,49 @@ class _SignUpState extends State<SignUp> {
         key: formKey,
         child: Column(
           children: [
-            Expanded(flex: 1,child: Container(
-              color: Colors.yellow,
+            Expanded(flex: 3,child: Container(
+              width: MediaQuery.sizeOf(context).width,
+              color: Colors.orange,
+              alignment: Alignment.center,
+              child: RichText(
+                textAlign: TextAlign.center,
+                text: const TextSpan(
+                  text: "k\n",
+                  style: TextStyle(
+                    fontSize: 92,
+                    fontWeight: FontWeight.w900
+                  ),
+                  children: [
+                    TextSpan(
+                        text: "kGamify",
+                      style: TextStyle(
+                        fontSize: 28
+                      )
+                    ),
+                  ]
+                ),
+              )
             ),
             ),
-            Expanded(flex: 2,child: Container(
-              color: Colors.orangeAccent,
+            Expanded(flex: 4,child: Container(
+              color: Colors.white,
               child: Padding(
                 padding: EdgeInsets.all(MediaQuery.sizeOf(context).width * 0.03),
                 child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
+                    SizedBox(height: AppBar().preferredSize.height /2,),
+                    Text(AppLocalizations.of(context)!.signUp,textAlign: TextAlign.start,style: Theme.of(context).textTheme.displaySmall!.copyWith(
+                      fontWeight: FontWeight.w700
+                    ),),
+                    const Divider(color: Colors.transparent,),
                     TextFormField(
-                      decoration: const InputDecoration(
-                        label: Text("Email")
+                      onTapOutside: (event) {
+                        FocusManager.instance.primaryFocus!.unfocus();
+                      },
+                      decoration: InputDecoration(
+                        label: Text(AppLocalizations.of(context)!.email),
+                        border: const OutlineInputBorder(),
                       ),
                       controller: _emailController,
                       autofillHints: const [
@@ -65,9 +99,12 @@ class _SignUpState extends State<SignUp> {
                     ),
                     const Divider(color: Colors.transparent,),
                     TextFormField(
-
-                      decoration: const InputDecoration(
-                        label: Text("Password")
+                      onTapOutside: (event) {
+                        FocusManager.instance.primaryFocus!.unfocus();
+                      },
+                      decoration: InputDecoration(
+                        label: Text(AppLocalizations.of(context)!.password),
+                        border: const OutlineInputBorder()
                       ),
                       obscureText: true,
                     ),
@@ -79,9 +116,8 @@ class _SignUpState extends State<SignUp> {
                         ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("Enter valid details.")));
                       }
                     },
-                    style: ElevatedButton.styleFrom(
-                      fixedSize: Size.fromWidth(MediaQuery.sizeOf(context).width),
-                    ), child: const Text("Validate"),
+                    style: elevatedButtonTheme(context),
+                      child: Text(AppLocalizations.of(context)!.validate),
                     )
                   ],
                 ),

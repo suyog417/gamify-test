@@ -10,6 +10,10 @@
   "startTIme" : "Start Time",
   "endTime" : "End Time",
   "categoryName" : "Category Name",
-  "logOut" : "Log Out",,
-  "time" : "Time"
+  "logOut" : "Log Out",
+  "time" : "Time",
+  "email": "Email",
+  "password": "Password",
+  "validate": "Validate",
+  "signUp": "SignUp"
 }

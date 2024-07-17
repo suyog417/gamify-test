@@ -1,5 +1,5 @@
 {
-  "playQuest" : "PlayQuest",
+  "playQuest" : "Championships",
   "selectChampionship":"Select Championship",
   "search" : "Search",
   "selectALanguageToProceed": "Select a language to proceed",
@@ -11,5 +11,9 @@
   "endTime" : "End Time",
   "categoryName" : "Category Name",
   "logOut" : "Log Out",
-  "time" : "Time"
+  "time" : "Time",
+  "email": "Email",
+  "password": "Password",
+  "validate": "Validate",
+  "signUp": "Sign Up"
 }
