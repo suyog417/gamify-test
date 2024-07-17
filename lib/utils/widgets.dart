@@ -1,9 +1,7 @@
-import 'package:auto_size_text/auto_size_text.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:kgamify/screens/question.dart';
+import 'package:kgamify/utils/exports.dart';
 
 class ChampionshipInfo extends StatelessWidget {
   final String startDate;
@@ -28,6 +26,10 @@ class ChampionshipInfo extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final formatter = NumberFormat.compact(locale: "en_US", explicitSign: false);
+    final formattedStartDate = DateTime.parse("$startDate $startTime");
+    final formattedEndDate = DateTime.parse("$endDate $endTime");
+    final start = DateFormat("MMMEd").format(DateTime.parse("$startDate $startTime"));
+    final end = DateFormat("MMMEd").format(DateTime.parse("$endDate $endTime"));
     return InkWell(
       borderRadius: BorderRadius.circular(10),
       onTap: () {
@@ -101,10 +103,63 @@ class ChampionshipInfo extends StatelessWidget {
                 style: Theme.of(context).textTheme.titleLarge,
               ),
               subtitle: Text(categoryName),
-              trailing: const Text(
-                "Upcoming",
-                style: TextStyle(color: Colors.green,fontSize: 16),
-              ),
+              trailing: LayoutBuilder(builder: (context, constraints) {
+                if (DateTime.parse(formattedStartDate.toString()).isAfter(DateTime.now())){
+                  return Container(
+                    decoration: BoxDecoration(
+                        border: const Border.fromBorderSide(BorderSide(color: Colors.grey)),
+                        borderRadius: BorderRadius.circular(5)
+                    ),
+                    padding: const EdgeInsets.all(3),
+                    child: const Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Icon(Icons.cancel_outlined,size: 14,color: Colors.grey,),
+                        Text(
+                          " Upcoming",
+                          style: TextStyle(color: Colors.grey,fontSize: 14),
+                        ),
+                      ],
+                    ),
+                  );
+                }
+                else if(DateTime.parse(formattedEndDate.toString()).isBefore(DateTime.now())) {
+                  return Container(
+                    decoration: BoxDecoration(
+                        border: const Border.fromBorderSide(BorderSide(color: Colors.redAccent)),
+                        borderRadius: BorderRadius.circular(5)
+                    ),
+                    padding: const EdgeInsets.all(3),
+                    child: const Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Icon(Icons.cancel_outlined,size: 14,color: Colors.redAccent,),
+                        Text(
+                          " Ended",
+                          style: TextStyle(color: Colors.redAccent,fontSize: 14),
+                        ),
+                      ],
+                    ),
+                  );
+                }
+                return Container(
+                  decoration: BoxDecoration(
+                      border: const Border.fromBorderSide(BorderSide(color: Colors.green)),
+                      borderRadius: BorderRadius.circular(5)
+                  ),
+                  padding: const EdgeInsets.all(3),
+                  child: const Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Icon(CupertinoIcons.ellipsis_circle,size: 14,color: Colors.green,),
+                      Text(
+                        " Ongoing",
+                        style: TextStyle(color: Colors.green,fontSize: 14),
+                      ),
+                    ],
+                  ),
+                );
+              },),
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -143,7 +198,7 @@ class ChampionshipInfo extends StatelessWidget {
                         AutoSizeText("B.Tech")
                       ],
                     ),
-                    Divider(
+                    const Divider(
                       height: 2,
                     ),
                     ButtonBar(
@@ -151,8 +206,22 @@ class ChampionshipInfo extends StatelessWidget {
                       children: [
                         const Icon(Icons.calendar_month),
                         const VerticalDivider(),
-                        AutoSizeText(
-                            "From ${DateFormat("MMMEd").format(DateTime.parse("$startDate $startTime"))}\nTo ${DateFormat("MMMEd").format(DateTime.parse("$endDate $endTime"))}")
+                        ButtonBar(
+                          children: [
+                            Column(
+                              children: [
+                                Text("From : "),
+                                Text("To : ")
+                              ],
+                            ),
+                            Column(
+                              children: [
+                                Text(start),
+                                Text(end)
+                              ],
+                            )
+                          ],
+                        )
                       ],
                     ),
                   ],
@@ -184,7 +253,7 @@ class ChampionshipInfo extends StatelessWidget {
                         );
                       },);
                     },
-                    child: CircleAvatar(
+                    child: const CircleAvatar(
                       // backgroundImage: Image(image: NetworkImage("https://neweralive.na/wp-content/uploads/2024/06/lloyd-sikeba.jpg"),),
                       backgroundImage: NetworkImage(
                           "https://neweralive.na/wp-content/uploads/2024/06/lloyd-sikeba.jpg"),

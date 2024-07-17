@@ -30,15 +30,15 @@ class Questions {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['question_id'] = this.questionId;
-    data['question_text'] = this.questionText;
-    data['option1_text'] = this.option1Text;
-    data['option2_text'] = this.option2Text;
-    data['option3_text'] = this.option3Text;
-    data['option4_text'] = this.option4Text;
-    data['correct_answer'] = this.correctAnswer;
-    data['total_coins'] = this.totalCoins;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['question_id'] = questionId;
+    data['question_text'] = questionText;
+    data['option1_text'] = option1Text;
+    data['option2_text'] = option2Text;
+    data['option3_text'] = option3Text;
+    data['option4_text'] = option4Text;
+    data['correct_answer'] = correctAnswer;
+    data['total_coins'] = totalCoins;
     return data;
   }
 }

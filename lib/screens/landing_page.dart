@@ -1,10 +1,12 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:kgamify/bloc/catergories_bloc.dart';
 import 'package:kgamify/utils/drawer.dart';
 import 'package:kgamify/utils/widgets.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
 
 class LandingPage extends StatefulWidget {
   const LandingPage({super.key});
@@ -16,6 +18,7 @@ class LandingPage extends StatefulWidget {
 class _LandingPageState extends State<LandingPage> {
 
   String _selectedSortOption = "A-Z";
+  final List<String> _sortOptions = ["Date","Alphabetical (A-Z)","Status"];
 
   @override
   Widget build(BuildContext context) {
@@ -56,33 +59,52 @@ class _LandingPageState extends State<LandingPage> {
                       onTap: () {
                         showDialog(context: context, builder: (context) {
                           return AlertDialog(
+                            contentPadding: EdgeInsets.all(MediaQuery.sizeOf(context).width * 0.04),
                             title: const Text("SortBy"),
                             content: SizedBox(
-                              width: MediaQuery.sizeOf(context).width * 0.7,
+                              width: MediaQuery.sizeOf(context).width * 0.8,
                               child: Column(
                                 mainAxisSize: MainAxisSize.min,
-                                crossAxisAlignment: CrossAxisAlignment.center,
+                                crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  ButtonBar(
-                                    alignment: MainAxisAlignment.center,
-                                    buttonPadding: EdgeInsets.zero,
-                                    children: [Radio(value: "A-Z",
-                                      groupValue: "A-Z", onChanged: (value) {
-
-                                      },),Text("A-Z")],
-                                  ),
-                                  Radio<String>(
-                                    value: 'A-Z',
-                                    groupValue: _selectedSortOption,
-                                    toggleable: true,
-                                    onChanged: (String? value) {
-                                      setState(() {
-                                        _selectedSortOption = value!;
-                                      });
-                                      Navigator.pop(context, value);
-                                    },
-                                    activeColor: Colors.green,
-                                  ),
+                                  ...List.generate(_sortOptions.length, (index) {
+                                    return ButtonBar(
+                                      alignment: MainAxisAlignment.start,
+                                      buttonPadding: EdgeInsets.zero,
+                                      children: [Radio(value: _sortOptions.elementAt(index),
+                                        groupValue: _selectedSortOption, onChanged: (value) {
+                                        setState(() {
+                                          _selectedSortOption = value!;
+                                        });
+                                        },), AutoSizeText(_sortOptions.elementAt(index))],
+                                    );
+                                  },)
+                                  // ButtonBar(
+                                  //   alignment: MainAxisAlignment.start,
+                                  //   buttonPadding: EdgeInsets.zero,
+                                  //   children: [Radio(value: "A-Z",
+                                  //     groupValue: _selectedSortOption, onChanged: (value) {
+                                  //     setState(() {
+                                  //
+                                  //     });
+                                  //     },),const Text("Alphabetical")],
+                                  // ),
+                                  // ButtonBar(
+                                  //   alignment: MainAxisAlignment.start,
+                                  //   buttonPadding: EdgeInsets.zero,
+                                  //   children: [Radio(value: "Status",
+                                  //     groupValue: _selectedSortOption, onChanged: (value) {
+                                  //
+                                  //     },),const AutoSizeText("Status(Ongoing/Upcoming/Ended)")],
+                                  // ),
+                                  // ButtonBar(
+                                  //   alignment: MainAxisAlignment.start,
+                                  //   buttonPadding: EdgeInsets.zero,
+                                  //   children: [Radio(value: "Date",
+                                  //     groupValue: _selectedSortOption, onChanged: (value) {
+                                  //
+                                  //     },),const Text("Date")],
+                                  // ),
                                 ],
                               ),
                             ),

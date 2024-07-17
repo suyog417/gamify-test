@@ -1,7 +1,4 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:hive_flutter/adapters.dart';
-import 'package:kgamify/screens/locale_selection.dart';
 import 'package:kgamify/screens/user_profile.dart';
 import 'package:kgamify/utils/exports.dart';
 
@@ -31,7 +28,7 @@ class _AppDrawerState extends State<AppDrawer> {
           ),
           ListTile(
             title: Text(AppLocalizations.of(context)!.analytics),
-            leading: Icon(Icons.bar_chart),
+            leading: const Icon(Icons.bar_chart),
           ),
           const Spacer(),
           ListTile(

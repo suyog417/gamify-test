@@ -4,7 +4,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kgamify/bloc/game_mode_bloc.dart';
 import 'package:kgamify/bloc/timer/timer_bloc.dart';
 import 'package:kgamify/screens/question.dart';
-import 'package:kgamify/utils/models/game_mode_model.dart';
 
 class SelectGameMode extends StatefulWidget {
   final int champId;

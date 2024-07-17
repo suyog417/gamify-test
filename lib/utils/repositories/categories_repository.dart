@@ -16,5 +16,6 @@ class CategoriesRepository {
     catch(ex){
       log(ex.toString());
     }
+    return null;
   }
 }

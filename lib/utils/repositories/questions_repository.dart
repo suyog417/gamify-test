@@ -3,7 +3,7 @@ import 'package:kgamify/utils/api.dart';
 import 'package:kgamify/utils/models/questions_model.dart';
 
 class QuestionsRepository{
-  API _api = API();
+  final API _api = API();
 
   Future<List<Questions>> fetchQuestions(int modeId) async {
     try{

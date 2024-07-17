@@ -95,7 +95,7 @@ class _LocaleTilesState extends State<LocaleTiles> {
           color: widget.color),
       child: Column(
         children: [
-          Container(
+          SizedBox(
             height: MediaQuery.sizeOf(context).width * 0.25,
             width: MediaQuery.sizeOf(context).width * 0.15,
             child: SvgPicture.asset(widget.svgPath,fit: BoxFit.fitWidth,),
