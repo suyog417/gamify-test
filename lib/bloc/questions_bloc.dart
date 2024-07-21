@@ -7,7 +7,7 @@ abstract class QuestionsState{}
 class QuestionLoadingState extends QuestionsState{}
 
 class QuestionLoadedState extends QuestionsState{
-  final List<Questions> questionModels;
+  final List<QuestionsModel> questionModels;
   QuestionLoadedState(this.questionModels);
 }
 
@@ -25,7 +25,7 @@ class QuestionsBloc extends Cubit<QuestionsState>{
 
   void getQuestions(int modeId) async {
     try{
-      List<Questions> questionData = await questionsRepository.fetchQuestions(modeId);
+      List<QuestionsModel> questionData = await questionsRepository.fetchQuestions(modeId);
       emit(QuestionLoadedState(questionData));
     }
     catch(e){

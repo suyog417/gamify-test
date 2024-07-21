@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:kgamify/bloc/questions_bloc.dart';
 import 'package:kgamify/screens/question.dart';
 import 'package:kgamify/utils/exports.dart';
 
@@ -28,16 +29,32 @@ class ChampionshipInfo extends StatelessWidget {
     final formatter = NumberFormat.compact(locale: "en_US", explicitSign: false);
     final formattedStartDate = DateTime.parse("$startDate $startTime");
     final formattedEndDate = DateTime.parse("$endDate $endTime");
-    final start = DateFormat("MMMEd").format(DateTime.parse("$startDate $startTime"));
-    final end = DateFormat("MMMEd").format(DateTime.parse("$endDate $endTime"));
-    return InkWell(
+    final start = DateFormat("MMM E d h:mm a").format(DateTime.parse("$startDate $startTime"));
+    final end = DateFormat("MMM E d h:mm a").format(DateTime.parse("$endDate $endTime"));
+    return BlocListener<QuestionsBloc, QuestionsState>(
+  listener: (context, state) {
+    if(state is QuestionLoadedState){
+      Navigator.push(
+          context,
+          CupertinoPageRoute(
+            builder: (context) => Question(questionsList: state.questionModels),
+          ));
+    }
+    if(state is QuestionErrorState){
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("Something went wrong")));
+    }
+  },
+  child: InkWell(
       borderRadius: BorderRadius.circular(10),
       onTap: () {
-        Navigator.push(
-            context,
-            CupertinoPageRoute(
-              builder: (context) => const Question(questionsList: []),
-            ));
+        // if(DateTime.parse(formattedStartDate.toString()).isAfter(DateTime.now())){
+        //   ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("The championship hasn't started yet")));
+        // }
+        // if(DateTime.parse(formattedEndDate.toString()).isBefore(DateTime.now())){
+        //   ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("The championship ended on $end")));
+        // }else {
+        context.read<QuestionsBloc>().getQuestions(1);
+        // }
       },
       child: Container(
         margin: const EdgeInsets.symmetric(vertical: 8),
@@ -78,7 +95,10 @@ class ChampionshipInfo extends StatelessWidget {
                                   color: Colors.transparent,
                                 ),
                                 FilledButton(
-                                  onPressed: () => Navigator.pop(context),
+                                  onPressed: () {
+                                    Navigator.push(context, CupertinoPageRoute(builder: (context) => const Question(questionsList: []),));
+                                    // Navigator.pop(context)
+                                  },
                                   style: elevatedButtonTheme(context),
                                   child: const Text("Ok"),
                                 )
@@ -172,11 +192,13 @@ class ChampionshipInfo extends StatelessWidget {
                       fontWeight: FontWeight.bold,
                       fontSize: Theme.of(context).textTheme.titleMedium!.fontSize),
                 ),
+                // Icon(Icons.auto_graph),
+                // Spacer(),
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
                     const Icon(Icons.person),
-                    Text(formatter.format(50000000),style: Theme.of(context).textTheme.titleMedium!.copyWith(
+                    Text(formatter.format(5000),style: Theme.of(context).textTheme.titleMedium!.copyWith(
                       fontWeight: FontWeight.normal
                     ),),
                   ],
@@ -207,14 +229,17 @@ class ChampionshipInfo extends StatelessWidget {
                         const Icon(Icons.calendar_month),
                         const VerticalDivider(),
                         ButtonBar(
+                          buttonPadding: EdgeInsets.zero,
                           children: [
-                            Column(
+                            const Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Text("From : "),
-                                Text("To : ")
+                                Text("Starts : "),
+                                Text("Ends   : ")
                               ],
                             ),
                             Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(start),
                                 Text(end)
@@ -226,39 +251,35 @@ class ChampionshipInfo extends StatelessWidget {
                     ),
                   ],
                 ),
-                Hero(
-                  tag: "teacher-profile-picture",
-                  transitionOnUserGestures: true,
-                  child: InkWell(
-                    onTap: () {
-                      showDialog(context: context, builder: (context) {
-                        return Dialog(
-                          insetPadding: EdgeInsets.all(MediaQuery.sizeOf(context).width * 0.07),
-                          child: Padding(
-                            padding: const EdgeInsets.all(12.0),
-                            child: Column(
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                const Hero(tag: "teacher-profile-picture", child: CircleAvatar(
-                                  backgroundImage: NetworkImage(
-                                      "https://neweralive.na/wp-content/uploads/2024/06/lloyd-sikeba.jpg"),
-                                  radius: 62,
-                                )),
-                                const Text("Teacher Name"),
-                                const Text("Teacher Qualification"),
-                                ElevatedButton(onPressed: (){},style: elevatedButtonTheme(context), child: const Text("View Profile"),)
-                              ],
-                            ),
+                InkWell(
+                  onTap: () {
+                    showDialog(context: context, builder: (context) {
+                      return Dialog(
+                        insetPadding: EdgeInsets.all(MediaQuery.sizeOf(context).width * 0.07),
+                        child: Padding(
+                          padding: const EdgeInsets.all(12.0),
+                          child: Column(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              const CircleAvatar(
+                                backgroundImage: NetworkImage(
+                                    "https://neweralive.na/wp-content/uploads/2024/06/lloyd-sikeba.jpg"),
+                                radius: 62,
+                              ),
+                              const Text("Teacher Name"),
+                              const Text("Teacher Qualification"),
+                              ElevatedButton(onPressed: (){},style: elevatedButtonTheme(context), child: const Text("View Profile"),)
+                            ],
                           ),
-                        );
-                      },);
-                    },
-                    child: const CircleAvatar(
-                      // backgroundImage: Image(image: NetworkImage("https://neweralive.na/wp-content/uploads/2024/06/lloyd-sikeba.jpg"),),
-                      backgroundImage: NetworkImage(
-                          "https://neweralive.na/wp-content/uploads/2024/06/lloyd-sikeba.jpg"),
-                      radius: 24,
-                    ),
+                        ),
+                      );
+                    },);
+                  },
+                  child: const CircleAvatar(
+                    // backgroundImage: Image(image: NetworkImage("https://neweralive.na/wp-content/uploads/2024/06/lloyd-sikeba.jpg"),),
+                    backgroundImage: NetworkImage(
+                        "https://neweralive.na/wp-content/uploads/2024/06/lloyd-sikeba.jpg"),
+                    radius: 24,
                   ),
                 ),
               ],
@@ -266,7 +287,8 @@ class ChampionshipInfo extends StatelessWidget {
           ],
         ),
       ),
-    );
+    ),
+);
   }
 }
 
@@ -275,6 +297,39 @@ ButtonStyle elevatedButtonTheme(BuildContext context) {
       fixedSize: Size.fromWidth(MediaQuery.sizeOf(context).width),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
       backgroundColor: Colors.orangeAccent,
-      foregroundColor: Colors.white,
+      foregroundColor: Colors.white
   );
+}
+
+
+
+class AppTextField extends StatelessWidget {
+  final String label;
+  final Widget? prefix;
+  final Widget? suffix;
+  final TextEditingController? controller;
+  final FocusNode? focusNode;
+  final String? Function(String? value) validator;
+  const AppTextField({super.key, required this.label, this.prefix, this.suffix, required this.validator, this.controller, this.focusNode});
+
+  @override
+  Widget build(BuildContext context) {
+    return TextFormField(
+      focusNode: focusNode,
+      validator: validator,
+      controller: controller,
+      onTapOutside: (event) {
+        FocusManager.instance.primaryFocus!.unfocus();
+      },
+      decoration: InputDecoration(
+        label: Text(label),
+        suffixIcon: suffix,
+        prefix: prefix,
+        errorStyle: const TextStyle(color: Colors.redAccent),
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(10)
+        ),
+      ),
+    );
+  }
 }

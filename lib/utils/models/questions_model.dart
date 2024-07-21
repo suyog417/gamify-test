@@ -1,4 +1,4 @@
-class Questions {
+class QuestionsModel {
   String? questionId;
   String? questionText;
   String? option1Text;
@@ -8,7 +8,7 @@ class Questions {
   String? correctAnswer;
   String? totalCoins;
 
-  Questions(
+  QuestionsModel(
       {this.questionId,
         this.questionText,
         this.option1Text,
@@ -18,7 +18,7 @@ class Questions {
         this.correctAnswer,
         this.totalCoins});
 
-  Questions.fromJson(Map<String, dynamic> json) {
+  QuestionsModel.fromJson(Map<String, dynamic> json) {
     questionId = json['question_id'];
     questionText = json['question_text'];
     option1Text = json['option1_text'];

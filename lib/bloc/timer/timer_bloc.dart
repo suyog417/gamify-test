@@ -5,7 +5,6 @@ import 'package:kgamify/screens/quiz_result.dart';
 
 class TimerBloc extends Cubit<String>{
   TimerBloc() : super("0:00");
-  final stopWatch = Stopwatch();
   Timer? _timer;
 
   formattedTime({required int timeInSecond}) {
@@ -17,30 +16,24 @@ class TimerBloc extends Cubit<String>{
   }
 
   void startTimer(int seconds,BuildContext context){
-    int remaining = seconds;
     _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
-      stopWatch.start();
-      emit(formattedTime(timeInSecond: remaining));
-      remaining--;
-      if(stopWatch.elapsed.inSeconds == seconds){
-        stopWatch.stop();
-        stopWatch.reset();
-        _timer?.cancel();
-        Navigator.push(context, CupertinoPageRoute(builder: (context) => const QuizResult(),));
+      if(seconds > 0){
+        seconds--;
+        emit(formattedTime(timeInSecond: seconds));
+      }else{
+        // _timer?.cancel();
+        Navigator.popUntil(context, (route) => route.isFirst,);
+        Navigator.push(context, CupertinoDialogRoute(builder: (context) => const QuizResult(totalQuestions: 0,solvedQuestions: 0,score: 0,), context: context));
       }
     },);
   }
 
   void resetTimer(){
-    stopWatch.reset();
-    stopWatch.stop();
     _timer?.cancel();
     emit("0:00");
   }
   @override
   Future<void> close() {
-    stopWatch.stop();
-    stopWatch.reset();
     _timer?.cancel();
     // TODO: implement close
     return super.close();

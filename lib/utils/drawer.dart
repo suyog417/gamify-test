@@ -16,9 +16,9 @@ class _AppDrawerState extends State<AppDrawer> {
       backgroundColor: Theme.of(context).colorScheme.surface,
       child: Column(
         children: [
-          const UserAccountsDrawerHeader(
-            currentAccountPicture: CircleAvatar(),
-              accountName: Text("UserName"), accountEmail: Text("abc@gmail.com")),
+          UserAccountsDrawerHeader(
+            currentAccountPicture: const CircleAvatar(),
+              accountName: Text(Hive.box("UserData").get("personalInfo")['name']), accountEmail: Text(Hive.box("UserData").get("personalInfo")['email'])),
           ListTile(
             title: Text(AppLocalizations.of(context)!.myAccount),
             leading: const Icon(Icons.person),
@@ -35,6 +35,7 @@ class _AppDrawerState extends State<AppDrawer> {
             title: Text(AppLocalizations.of(context)!.logOut),
             leading: const Icon(Icons.logout_outlined),
             onTap: () {
+              Hive.box("UserData").put("isLoggedIn", false);
               Hive.box("UserData").delete("locale").whenComplete(
                 () {
                   Navigator.popUntil(context, (route) => route.isFirst,);

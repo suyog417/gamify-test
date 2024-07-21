@@ -5,6 +5,7 @@ import 'package:kgamify/bloc/game_mode_bloc.dart';
 import 'package:kgamify/bloc/questions_bloc.dart';
 import 'package:kgamify/bloc/theme_bloc.dart';
 import 'package:kgamify/bloc/timer/timer_bloc.dart';
+import 'package:kgamify/screens/sign_up.dart';
 import 'package:kgamify/utils/exports.dart';
 
 void main() async {
@@ -58,15 +59,16 @@ class MyApp extends StatelessWidget {
         theme: ThemeData(
           colorScheme: ColorScheme.fromSeed(seedColor: Colors.orange),
           useMaterial3: true,
+          bottomSheetTheme: const BottomSheetThemeData(backgroundColor: Colors.white)
         ),
         debugShowCheckedModeBanner: kDebugMode,
         home: LayoutBuilder(builder: (context, constraints) {
           if (Hive.box("UserData").get("locale",defaultValue: null) == null){
             return const LocaleSelection();
           }
-          // else if(Hive.box("UserData").get("userName",defaultValue: null) == null){
-          //   return const SignUp();
-          // }
+          else if(!Hive.box("UserData").get("isLoggedIn",defaultValue: false)){
+            return const SignUp();
+          }
           return const LandingPage();
         },),
       ),

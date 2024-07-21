@@ -38,6 +38,12 @@ class CategoriesBloc extends Cubit<CategoriesStates>{
     emit(CategoriesLoadedState(models!.where((element) => element.champName!.toLowerCase().contains(query),).toList()));
   }
   void sortChampionships(String sortBy){
-
+    switch(sortBy){
+      case "A-Z":{
+        emit(CategoriesLoadedState(models));
+      }
+      case "Date": {}
+      case "Status":{}
+    }
   }
 }
