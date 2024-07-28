@@ -53,11 +53,12 @@ class _LocaleSelectionState extends State<LocaleSelection> {
             onPressed: () {
               Hive.box("UserData").put("locale", locale).whenComplete(
                 () {
+                  Navigator.popUntil(context, (route) => route.isFirst,);
                   Navigator.push(
                       context,
                       CupertinoPageRoute(
                         builder: (context) => const LandingPage(),
-                      ));
+                      )).whenComplete(() => setState(() {}),);
                 },
               );
             },

@@ -7,6 +7,7 @@ import 'package:kgamify/bloc/theme_bloc.dart';
 import 'package:kgamify/bloc/timer/timer_bloc.dart';
 import 'package:kgamify/screens/sign_up.dart';
 import 'package:kgamify/utils/exports.dart';
+import 'package:onesignal_flutter/onesignal_flutter.dart';
 
 void main() async {
   await Hive.initFlutter();
@@ -17,6 +18,14 @@ void main() async {
         kIsWeb ? HydratedStorage.webStorageDirectory : await getApplicationDocumentsDirectory(),
   );
   runApp(const MyApp());
+
+  //Remove this method to stop OneSignal Debugging
+  OneSignal.Debug.setLogLevel(OSLogLevel.verbose);
+
+  OneSignal.initialize("5c421eb8-340d-4e8a-b5f2-ff95c48a9d1b");
+
+// The promptForPushNotificationsWithUserResponse function will show the iOS or Android push notification prompt. We recommend removing the following code and instead using an In-App Message to prompt for notification permission
+  OneSignal.Notifications.requestPermission(true);
 }
 
 class MyApp extends StatelessWidget {
@@ -56,6 +65,8 @@ class MyApp extends StatelessWidget {
           GlobalWidgetsLocalizations.delegate,
           GlobalCupertinoLocalizations.delegate
         ],
+        darkTheme: ThemeData.dark(useMaterial3: true),
+        themeMode: ThemeMode.dark,
         theme: ThemeData(
           colorScheme: ColorScheme.fromSeed(seedColor: Colors.orange),
           useMaterial3: true,

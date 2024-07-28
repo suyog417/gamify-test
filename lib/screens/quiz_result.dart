@@ -26,7 +26,7 @@ class _QuizResultState extends State<QuizResult> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: Theme.of(context).colorScheme.surface,
       body: Padding(
         padding: EdgeInsets.all(MediaQuery.sizeOf(context).width * 0.04),
         child: Column(
@@ -36,9 +36,9 @@ class _QuizResultState extends State<QuizResult> {
             SizedBox(
               height: AppBar().preferredSize.height,
             ),
-            AspectRatio(
-              aspectRatio: 1,
-              child: Image.asset("assets/images/celebration.png"),
+            const AspectRatio(
+                aspectRatio: 1,
+                child: Image(image: AssetImage("assets/images/celebration.png"),),
             ),
             AutoSizeText("Your Score",textAlign: TextAlign.center,style: Theme.of(context).textTheme.titleLarge,),
             AutoSizeText("${widget.solvedQuestions}/${widget.totalQuestions}",textAlign: TextAlign.center,style: Theme.of(context).textTheme.displaySmall!.copyWith(

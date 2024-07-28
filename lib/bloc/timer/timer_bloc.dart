@@ -3,6 +3,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kgamify/screens/quiz_result.dart';
 
+
+///Functionalities for
 class TimerBloc extends Cubit<String>{
   TimerBloc() : super("0:00");
   Timer? _timer;

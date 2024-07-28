@@ -39,11 +39,11 @@ class _QuestionState extends State<Question> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: Theme.of(context).colorScheme.surface,
       appBar: AppBar(
         title: const Text("Mind Marathon"),
         elevation: 0,
-        backgroundColor: Colors.white,
+        backgroundColor: Theme.of(context).colorScheme.surface,
         automaticallyImplyLeading: false,
         // backgroundColor: Theme.of(context).colorScheme.surface,
         actions: [
@@ -163,6 +163,17 @@ class _QuestionState extends State<Question> {
                     },),
                   ],
                 ),
+                SizedBox(
+                  height: AppBar().preferredSize.height,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    ...List.generate(5, (index) {
+                      return Icon(Icons.close);
+                    },)
+                  ],
+                )
               ],
             ),
           );
@@ -229,12 +240,12 @@ class _QuestionState extends State<Question> {
         decoration: BoxDecoration(
           border: const Border.fromBorderSide(BorderSide(color: Colors.orange)),
           borderRadius: BorderRadius.circular(10),
-          color: ans == selectedAns ? Colors.orange : Colors.white,
+          color: ans == selectedAns ? Colors.orange.withOpacity(0.3) : Theme.of(context).colorScheme.surface,
         ),
         child: AutoSizeText(
           ans ?? "",
-          style: Theme.of(context).textTheme.titleMedium!.copyWith(
-              color: ans != selectedAns ? Colors.black : Colors.white),
+          style: Theme.of(context).textTheme.titleMedium!
+              // .copyWith(color: ans != selectedAns ? Colors.black : Colors.white),
         ),
       ),
     );

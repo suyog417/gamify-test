@@ -37,7 +37,7 @@ class _SignUpState extends State<SignUp> {
   Widget build(BuildContext context) {
     final formKey = GlobalKey<FormState>();
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: Theme.of(context).colorScheme.surface,
       body: Form(
         key: formKey,
         child: ListView(

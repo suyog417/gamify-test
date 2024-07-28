@@ -17,13 +17,18 @@ class _AppDrawerState extends State<AppDrawer> {
       child: Column(
         children: [
           UserAccountsDrawerHeader(
-            currentAccountPicture: const CircleAvatar(),
-              accountName: Text(Hive.box("UserData").get("personalInfo")['name']), accountEmail: Text(Hive.box("UserData").get("personalInfo")['email'])),
+              currentAccountPicture: const CircleAvatar(),
+              accountName: Text(Hive.box("UserData").get("personalInfo")['name']),
+              accountEmail: Text(Hive.box("UserData").get("personalInfo")['email'])),
           ListTile(
             title: Text(AppLocalizations.of(context)!.myAccount),
             leading: const Icon(Icons.person),
             onTap: () {
-              Navigator.push(context, CupertinoPageRoute(builder: (context) => const UserProfile(),));
+              Navigator.push(
+                  context,
+                  CupertinoPageRoute(
+                    builder: (context) => const UserProfile(),
+                  ));
             },
           ),
           ListTile(
@@ -38,8 +43,15 @@ class _AppDrawerState extends State<AppDrawer> {
               Hive.box("UserData").put("isLoggedIn", false);
               Hive.box("UserData").delete("locale").whenComplete(
                 () {
-                  Navigator.popUntil(context, (route) => route.isFirst,);
-                  Navigator.push(context, CupertinoPageRoute(builder: (context) => const LocaleSelection(),));
+                  Navigator.popUntil(
+                    context,
+                    (route) => route.isFirst,
+                  );
+                  Navigator.push(
+                      context,
+                      CupertinoPageRoute(
+                        builder: (context) => const LocaleSelection(),
+                      ));
                 },
               );
             },

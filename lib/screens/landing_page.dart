@@ -15,25 +15,26 @@ class LandingPage extends StatefulWidget {
 }
 
 class _LandingPageState extends State<LandingPage> {
-  String _selectedSortOption = "A-Z";
+  String _selectedSortOption = "Date";
   final List<String> _sortOptions = ["Date", "A-Z", "Status"];
-
 
   @override
   void dispose() {
     // TODO: implement dispose
-    if(FocusManager.instance.primaryFocus!.hasFocus){
+    if (FocusManager.instance.primaryFocus!.hasFocus) {
       FocusManager.instance.primaryFocus!.unfocus();
     }
     super.dispose();
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: Colors.white,
+        drawerEnableOpenDragGesture: true,
+        backgroundColor: Theme.of(context).colorScheme.surface,
         drawer: const AppDrawer(),
         appBar: AppBar(
-          backgroundColor: Colors.white,
+          backgroundColor: Theme.of(context).colorScheme.surface,
           title: Text(
             AppLocalizations.of(context)!.playQuest,
             style: const TextStyle(fontWeight: FontWeight.w800, color: Colors.orange),
@@ -85,7 +86,8 @@ class _LandingPageState extends State<LandingPage> {
                                             crossAxisAlignment: CrossAxisAlignment.start,
                                             children: [
                                               ...List.generate(
-                                                _sortOptions.length, (index) {
+                                                _sortOptions.length,
+                                                (index) {
                                                   return ButtonBar(
                                                     alignment: MainAxisAlignment.start,
                                                     buttonPadding: EdgeInsets.zero,
@@ -96,6 +98,10 @@ class _LandingPageState extends State<LandingPage> {
                                                         onChanged: (value) {
                                                           setState(() {
                                                             _selectedSortOption = value!;
+                                                            context
+                                                                .read<CategoriesBloc>()
+                                                                .sortChampionships(value);
+                                                            Navigator.pop(context);
                                                           });
                                                         },
                                                       ),
@@ -118,23 +124,28 @@ class _LandingPageState extends State<LandingPage> {
                     ),
                   ),
                   Expanded(
-                    child: ListView.builder(
-                      shrinkWrap: true,
-                      padding:
-                          EdgeInsets.symmetric(horizontal: MediaQuery.sizeOf(context).width * 0.04),
-                      itemCount: state.models!.length,
-                      itemBuilder: (context, index) {
-                        final curr = state.models?.elementAt(index);
-                        return ChampionshipInfo(
-                            startDate: curr!.startDate ?? "",
-                            endDate: curr.endDate ?? "",
-                            startTime: curr.startTime ?? "",
-                            endTime: curr.endTime ?? "",
-                            champId: curr.champId ?? "",
-                            categoryId: curr.categoryId ?? "",
-                            champName: curr.champName ?? "",
-                            categoryName: curr.categoryName ?? "");
+                    child: RefreshIndicator(
+                      onRefresh: () async {
+                        context.read<CategoriesBloc>().refreshCategories();
                       },
+                      child: ListView.builder(
+                        shrinkWrap: true,
+                        padding: EdgeInsets.symmetric(
+                            horizontal: MediaQuery.sizeOf(context).width * 0.04),
+                        itemCount: state.models!.length,
+                        itemBuilder: (context, index) {
+                          final curr = state.models?.elementAt(index);
+                          return ChampionshipInfo(
+                              startDate: curr!.startDate ?? "",
+                              endDate: curr.endDate ?? "",
+                              startTime: curr.startTime ?? "",
+                              endTime: curr.endTime ?? "",
+                              champId: curr.champId ?? "",
+                              categoryId: curr.categoryId ?? "",
+                              champName: curr.champName ?? "",
+                              categoryName: curr.categoryName ?? "");
+                        },
+                      ),
                     ),
                   )
                 ],

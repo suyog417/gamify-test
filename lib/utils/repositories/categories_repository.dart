@@ -18,4 +18,16 @@ class CategoriesRepository {
     }
     return null;
   }
+
+  Future<List<ChampDetails>?> fetchChampDetails(int champId) async {
+    try{
+      Response response = await _api.sendRequests.get("/fetch_details?champ_id=$champId");
+      List<dynamic> details = response.data['data'];
+      return details.map((e) => ChampDetails.fromJson(e),).toList();
+    }
+    catch (e){
+      log(e.toString());
+    }
+    return null;
+  }
 }

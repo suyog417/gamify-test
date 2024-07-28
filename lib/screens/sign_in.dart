@@ -34,8 +34,11 @@ class _SignInState extends State<SignIn> {
   Widget build(BuildContext context) {
     final formKey = GlobalKey<FormState>();
     return Scaffold(
-      backgroundColor: Colors.white,
-        extendBodyBehindAppBar: true,
+      backgroundColor: Theme.of(context).colorScheme.surface,
+        // extendBodyBehindAppBar: true,
+        appBar: AppBar(
+          backgroundColor: const Color(0xFFff8200),
+        ),
         body: Form(
           key: formKey,
           child: ListView(
@@ -156,7 +159,8 @@ Password should contain
                         text: "Already have an account?",
                         recognizer: TapGestureRecognizer()..onTap = () {
                           // print("clicked");
-                          Navigator.push(context, CupertinoDialogRoute(builder: (context) => const SignIn(), context: context));
+                          Navigator.pop(context);
+                          // Navigator.push(context, CupertinoDialogRoute(builder: (context) => const SignUp(), context: context));
                         },
                       ),textAlign: TextAlign.center,),
                     )
