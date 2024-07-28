@@ -1,6 +1,6 @@
-class PersonalInfoModel{
+class PersonalInfoModel {
   final String name;
   final String email;
   final String password;
-  PersonalInfoModel(this.name,this.email,this.password);
+  PersonalInfoModel(this.name, this.email, this.password);
 }

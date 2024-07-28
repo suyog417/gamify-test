@@ -10,13 +10,13 @@ class QuestionsModel {
 
   QuestionsModel(
       {this.questionId,
-        this.questionText,
-        this.option1Text,
-        this.option2Text,
-        this.option3Text,
-        this.option4Text,
-        this.correctAnswer,
-        this.totalCoins});
+      this.questionText,
+      this.option1Text,
+      this.option2Text,
+      this.option3Text,
+      this.option4Text,
+      this.correctAnswer,
+      this.totalCoins});
 
   QuestionsModel.fromJson(Map<String, dynamic> json) {
     questionId = json['question_id'];

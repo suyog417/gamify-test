@@ -14,8 +14,7 @@ class Question extends StatefulWidget {
 }
 
 class _QuestionState extends State<Question> {
-
-  int seconds = 10 *60;
+  int seconds = 10 * 60;
 
   @override
   void initState() {
@@ -119,7 +118,10 @@ class _QuestionState extends State<Question> {
                     ),
                     ButtonBar(
                       mainAxisSize: MainAxisSize.min,
-                      children: [const Icon(Icons.question_answer), Text("$currentIndex/${widget.questionsList.length}")],
+                      children: [
+                        const Icon(Icons.question_answer),
+                        Text("$currentIndex/${widget.questionsList.length}")
+                      ],
                     ),
                     ButtonBar(
                       mainAxisSize: MainAxisSize.min,
@@ -131,7 +133,8 @@ class _QuestionState extends State<Question> {
                   alignment: Alignment.topLeft,
                   margin: EdgeInsets.symmetric(vertical: MediaQuery.sizeOf(context).width * 0.05),
                   padding: const EdgeInsets.all(8),
-                  child: AutoSizeText("$currentIndex) ${widget.questionsList.elementAt(index).option1Text}",
+                  child: AutoSizeText(
+                      "$currentIndex) ${widget.questionsList.elementAt(index).option1Text}",
                       style: Theme.of(context).textTheme.titleMedium),
                 ),
                 AutoSizeText(
@@ -146,21 +149,36 @@ class _QuestionState extends State<Question> {
                   shrinkWrap: true,
                   children: [
                     // answerTile(index, widget.questionsList.elementAt(index).option1Text, selectedAns),
-                    answerTile(index, widget.questionsList.elementAt(index).option2Text, selectedAns,() {
+                    answerTile(
+                      index,
+                      widget.questionsList.elementAt(index).option2Text,
+                      selectedAns,
+                      () {
                         setState(() {
                           selectedAns = widget.questionsList.elementAt(index).option2Text;
                         });
-                    },),
-                    answerTile(index, widget.questionsList.elementAt(index).option3Text, selectedAns,() {
-                      setState(() {
-                        selectedAns = widget.questionsList.elementAt(index).option3Text;
-                      });
-                    },),
-                    answerTile(index, widget.questionsList.elementAt(index).option4Text, selectedAns,() {
-                      setState(() {
-                        selectedAns = widget.questionsList.elementAt(index).option4Text;
-                      });
-                    },),
+                      },
+                    ),
+                    answerTile(
+                      index,
+                      widget.questionsList.elementAt(index).option3Text,
+                      selectedAns,
+                      () {
+                        setState(() {
+                          selectedAns = widget.questionsList.elementAt(index).option3Text;
+                        });
+                      },
+                    ),
+                    answerTile(
+                      index,
+                      widget.questionsList.elementAt(index).option4Text,
+                      selectedAns,
+                      () {
+                        setState(() {
+                          selectedAns = widget.questionsList.elementAt(index).option4Text;
+                        });
+                      },
+                    ),
                   ],
                 ),
                 SizedBox(
@@ -169,9 +187,12 @@ class _QuestionState extends State<Question> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
-                    ...List.generate(5, (index) {
-                      return Icon(Icons.close);
-                    },)
+                    ...List.generate(
+                      5,
+                      (index) {
+                        return Icon(Icons.close);
+                      },
+                    )
                   ],
                 )
               ],
@@ -182,71 +203,71 @@ class _QuestionState extends State<Question> {
       bottomSheet: Padding(
         padding: EdgeInsets.all(MediaQuery.sizeOf(context).width * 0.04),
         child: ElevatedButton(
-                  onPressed:() {
-        if (currentIndex == widget.questionsList.length) {
-          showDialog(
-            context: context,
-            builder: (context) {
-              return AlertDialog(
-                content: const Text("Do you want to submit and exit the championship."),
-                actionsAlignment: MainAxisAlignment.spaceAround,
-                actions: [
-                  ElevatedButton(
-                      onPressed: () {
-                        Navigator.popUntil(
-                          context,
-                          (route) => route is LandingPage,
-                        );
-                        Navigator.push(
-                            context,
-                            CupertinoPageRoute(
-                              builder: (context) => QuizResult(
-                                score: score,
-                                solvedQuestions: currentIndex!,
-                                totalQuestions: widget.questionsList.length,
-                              ),
-                            ));
-                      },
-                      child: const Text("Yes")),
-                  OutlinedButton(
-                      onPressed: () {
-                        Navigator.pop(context);
-                      },
-                      child: const Text("No"))
-                ],
+          onPressed: () {
+            if (currentIndex == widget.questionsList.length) {
+              showDialog(
+                context: context,
+                builder: (context) {
+                  return AlertDialog(
+                    content: const Text("Do you want to submit and exit the championship."),
+                    actionsAlignment: MainAxisAlignment.spaceAround,
+                    actions: [
+                      ElevatedButton(
+                          onPressed: () {
+                            Navigator.popUntil(
+                              context,
+                              (route) => route is LandingPage,
+                            );
+                            Navigator.push(
+                                context,
+                                CupertinoPageRoute(
+                                  builder: (context) => QuizResult(
+                                    score: score,
+                                    solvedQuestions: currentIndex!,
+                                    totalQuestions: widget.questionsList.length,
+                                  ),
+                                ));
+                          },
+                          child: const Text("Yes")),
+                      OutlinedButton(
+                          onPressed: () {
+                            Navigator.pop(context);
+                          },
+                          child: const Text("No"))
+                    ],
+                  );
+                },
               );
-            },
-          );
-        }
-        setState(() {
-          selectedAns = null;
-        });
-        pageController.nextPage(
-            duration: const Duration(milliseconds: 500), curve: Curves.easeInOut);
-                  },
-                  style: elevatedButtonTheme(context),
-                  child: const Text("Next"),
-                ),
+            }
+            setState(() {
+              selectedAns = null;
+            });
+            pageController.nextPage(
+                duration: const Duration(milliseconds: 500), curve: Curves.easeInOut);
+          },
+          style: elevatedButtonTheme(context),
+          child: const Text("Next"),
+        ),
       ),
     );
   }
-  Widget answerTile(int index,String? ans,String? selectedAns,void Function() onTap){
+
+  Widget answerTile(int index, String? ans, String? selectedAns, void Function() onTap) {
     return InkWell(
       onTap: onTap,
       child: Container(
-        margin:
-        EdgeInsets.symmetric(vertical: MediaQuery.sizeOf(context).width * 0.03),
+        margin: EdgeInsets.symmetric(vertical: MediaQuery.sizeOf(context).width * 0.03),
         padding: const EdgeInsets.all(16),
         decoration: BoxDecoration(
           border: const Border.fromBorderSide(BorderSide(color: Colors.orange)),
           borderRadius: BorderRadius.circular(10),
-          color: ans == selectedAns ? Colors.orange.withOpacity(0.3) : Theme.of(context).colorScheme.surface,
+          color: ans == selectedAns
+              ? Colors.orange.withOpacity(0.3)
+              : Theme.of(context).colorScheme.surface,
         ),
-        child: AutoSizeText(
-          ans ?? "",
-          style: Theme.of(context).textTheme.titleMedium!
-              // .copyWith(color: ans != selectedAns ? Colors.black : Colors.white),
-        ),
+        child: AutoSizeText(ans ?? "", style: Theme.of(context).textTheme.titleMedium!
+            // .copyWith(color: ans != selectedAns ? Colors.black : Colors.white),
+            ),
       ),
     );
   }

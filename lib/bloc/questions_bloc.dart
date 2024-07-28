@@ -2,33 +2,32 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kgamify/utils/models/questions_model.dart';
 import 'package:kgamify/utils/repositories/questions_repository.dart';
 
-abstract class QuestionsState{}
+abstract class QuestionsState {}
 
-class QuestionLoadingState extends QuestionsState{}
+class QuestionLoadingState extends QuestionsState {}
 
-class QuestionLoadedState extends QuestionsState{
+class QuestionLoadedState extends QuestionsState {
   final List<QuestionsModel> questionModels;
   QuestionLoadedState(this.questionModels);
 }
 
-class QuestionErrorState extends QuestionsState{
+class QuestionErrorState extends QuestionsState {
   final String error;
   QuestionErrorState(this.error);
 }
 
-class QuestionAnsweredState extends QuestionsState{}
+class QuestionAnsweredState extends QuestionsState {}
 
-class QuestionsBloc extends Cubit<QuestionsState>{
+class QuestionsBloc extends Cubit<QuestionsState> {
   QuestionsBloc() : super(QuestionLoadingState());
 
   QuestionsRepository questionsRepository = QuestionsRepository();
 
   void getQuestions(int modeId) async {
-    try{
+    try {
       List<QuestionsModel> questionData = await questionsRepository.fetchQuestions(modeId);
       emit(QuestionLoadedState(questionData));
-    }
-    catch(e){
+    } catch (e) {
       emit(QuestionErrorState(e.toString()));
     }
   }
@@ -36,5 +35,4 @@ class QuestionsBloc extends Cubit<QuestionsState>{
   void questionAnswered() {
     emit(QuestionAnsweredState());
   }
-
 }

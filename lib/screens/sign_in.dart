@@ -20,7 +20,6 @@ class _SignInState extends State<SignIn> {
 
   final passNode = FocusNode();
 
-
   @override
   void dispose() {
     // TODO: implement dispose
@@ -30,11 +29,12 @@ class _SignInState extends State<SignIn> {
     FocusManager.instance.primaryFocus?.unfocus();
     super.dispose();
   }
+
   @override
   Widget build(BuildContext context) {
     final formKey = GlobalKey<FormState>();
     return Scaffold(
-      backgroundColor: Theme.of(context).colorScheme.surface,
+        backgroundColor: Theme.of(context).colorScheme.surface,
         // extendBodyBehindAppBar: true,
         appBar: AppBar(
           backgroundColor: const Color(0xFFff8200),
@@ -54,8 +54,7 @@ class _SignInState extends State<SignIn> {
               ),
               // const Divider(color: Colors.transparent,),
               Padding(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 16,vertical: 16),
+                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -70,7 +69,7 @@ class _SignInState extends State<SignIn> {
                     AppTextField(
                       controller: _name,
                       validator: (value) {
-                        if(value == null || value.isEmpty){
+                        if (value == null || value.isEmpty) {
                           return "Name cannot be empty";
                         }
                         return null;
@@ -83,10 +82,9 @@ class _SignInState extends State<SignIn> {
                     AppTextField(
                       controller: _email,
                       validator: (value) {
-                        if(value == null || value.isEmpty){
+                        if (value == null || value.isEmpty) {
                           return "Email cannot be empty";
-                        }
-                        else if(!UserValidation().regExp.hasMatch(value)){
+                        } else if (!UserValidation().regExp.hasMatch(value)) {
                           return "Enter valid email ex.example@abc.com";
                         }
                         return null;
@@ -99,10 +97,10 @@ class _SignInState extends State<SignIn> {
                     AppTextField(
                       controller: _passwordController,
                       validator: (value) {
-                        if(value == null || value.isEmpty){
+                        if (value == null || value.isEmpty) {
                           return "Password cannot be empty.";
                         }
-                        if (!UserValidation().passExp.hasMatch(value)){
+                        if (!UserValidation().passExp.hasMatch(value)) {
                           return '''
 Password should contain
   should contain at least one upper case
@@ -120,13 +118,15 @@ Password should contain
                     ),
                     AppTextField(
                       validator: (value) {
-                        if(value == null || _passwordController.text != value || value.isEmpty){
+                        if (value == null || _passwordController.text != value || value.isEmpty) {
                           return "Password doesn't match";
                         }
                         return null;
                       },
                       focusNode: passNode,
-                      suffix: passNode.hasFocus ? const Icon(CupertinoIcons.eye_fill) : const Icon(CupertinoIcons.eye_slash_fill),
+                      suffix: passNode.hasFocus
+                          ? const Icon(CupertinoIcons.eye_fill)
+                          : const Icon(CupertinoIcons.eye_slash_fill),
                       label: "Confirm password",
                     ),
                     const Divider(
@@ -134,16 +134,25 @@ Password should contain
                     ),
                     FilledButton(
                       onPressed: () {
-                        if(formKey.currentState!.validate()){
+                        if (formKey.currentState!.validate()) {
                           Hive.box("UserData").put("isLoggedIn", true);
-                          Hive.box("UserData").put("personalInfo",{
-                            "name" : _name.text,
-                            "email" :_email.text,
-                            "password" : _passwordController.text
-                          }).whenComplete(() {
-                            Navigator.popUntil(context, (route) => route.isFirst,);
-                            Navigator.push(context, CupertinoPageRoute(builder: (context) => const LandingPage(),));
-                          },);
+                          Hive.box("UserData").put("personalInfo", {
+                            "name": _name.text,
+                            "email": _email.text,
+                            "password": _passwordController.text
+                          }).whenComplete(
+                            () {
+                              Navigator.popUntil(
+                                context,
+                                (route) => route.isFirst,
+                              );
+                              Navigator.push(
+                                  context,
+                                  CupertinoPageRoute(
+                                    builder: (context) => const LandingPage(),
+                                  ));
+                            },
+                          );
                         }
                       },
                       style: FilledButton.styleFrom(
@@ -152,17 +161,23 @@ Password should contain
                           fixedSize: Size.fromWidth(MediaQuery.sizeOf(context).width)),
                       child: const Text("Create account"),
                     ),
-                    const Divider(color: Colors.transparent,),
+                    const Divider(
+                      color: Colors.transparent,
+                    ),
                     SizedBox(
                       width: MediaQuery.sizeOf(context).width,
-                      child: Text.rich(TextSpan(
-                        text: "Already have an account?",
-                        recognizer: TapGestureRecognizer()..onTap = () {
-                          // print("clicked");
-                          Navigator.pop(context);
-                          // Navigator.push(context, CupertinoDialogRoute(builder: (context) => const SignUp(), context: context));
-                        },
-                      ),textAlign: TextAlign.center,),
+                      child: Text.rich(
+                        TextSpan(
+                          text: "Already have an account?",
+                          recognizer: TapGestureRecognizer()
+                            ..onTap = () {
+                              // print("clicked");
+                              Navigator.pop(context);
+                              // Navigator.push(context, CupertinoDialogRoute(builder: (context) => const SignUp(), context: context));
+                            },
+                        ),
+                        textAlign: TextAlign.center,
+                      ),
                     )
                   ],
                 ),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 class SplashScreen extends StatelessWidget {
   const SplashScreen({super.key});
 
@@ -10,7 +11,7 @@ class SplashScreen extends StatelessWidget {
       ),
       body: Center(
         child: Container(
-          constraints: const BoxConstraints.expand(width: 100,height: 100),
+          constraints: const BoxConstraints.expand(width: 100, height: 100),
           height: 50,
           width: 50,
         ),

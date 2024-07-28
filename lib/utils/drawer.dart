@@ -17,7 +17,18 @@ class _AppDrawerState extends State<AppDrawer> {
       child: Column(
         children: [
           UserAccountsDrawerHeader(
-              currentAccountPicture: const CircleAvatar(),
+              currentAccountPicture: Hero(
+                tag: "UserPfp",
+                child: CircleAvatar(
+                  radius: MediaQuery.sizeOf(context).width * 0.15,
+                  backgroundImage:
+                      MemoryImage(Hive.box("UserData").get("UserImage", defaultValue: null)),
+                  onBackgroundImageError: (exception, stackTrace) {
+                    ScaffoldMessenger.of(context)
+                        .showSnackBar(SnackBar(content: Text(exception.toString())));
+                  },
+                ),
+              ),
               accountName: Text(Hive.box("UserData").get("personalInfo")['name']),
               accountEmail: Text(Hive.box("UserData").get("personalInfo")['email'])),
           ListTile(

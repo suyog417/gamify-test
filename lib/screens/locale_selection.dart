@@ -11,9 +11,9 @@ class LocaleSelection extends StatefulWidget {
 
 class _LocaleSelectionState extends State<LocaleSelection> {
   String locale = "en";
-  Map<String,List> localeData = {
-    "en" : ["assets/flags/us.svg","English"],
-    "hi" : ["assets/flags/in.svg","Hindi"]
+  Map<String, List> localeData = {
+    "en": ["assets/flags/us.svg", "English"],
+    "hi": ["assets/flags/in.svg", "Hindi"]
   };
   @override
   Widget build(BuildContext context) {
@@ -35,17 +35,21 @@ class _LocaleSelectionState extends State<LocaleSelection> {
             itemCount: localeData.length,
             shrinkWrap: true,
             itemBuilder: (context, index) {
-            return InkWell(
-              onTap: () => setState(() {
-                locale = localeData.keys.elementAt(index);
-              }),
-              child: LocaleTiles(
-                localeName: localeData.keys.elementAt(index),
-                countryName: localeData[localeData.keys.elementAt(index)]!.last,
-                svgPath: localeData[localeData.keys.elementAt(index)]!.first,
-                color: localeData.keys.elementAt(index) == locale ? Colors.orangeAccent : Colors.white,),
-            );
-          },),
+              return InkWell(
+                onTap: () => setState(() {
+                  locale = localeData.keys.elementAt(index);
+                }),
+                child: LocaleTiles(
+                  localeName: localeData.keys.elementAt(index),
+                  countryName: localeData[localeData.keys.elementAt(index)]!.last,
+                  svgPath: localeData[localeData.keys.elementAt(index)]!.first,
+                  color: localeData.keys.elementAt(index) == locale
+                      ? Colors.orangeAccent
+                      : Colors.white,
+                ),
+              );
+            },
+          ),
           const Divider(
             color: Colors.transparent,
           ),
@@ -53,12 +57,17 @@ class _LocaleSelectionState extends State<LocaleSelection> {
             onPressed: () {
               Hive.box("UserData").put("locale", locale).whenComplete(
                 () {
-                  Navigator.popUntil(context, (route) => route.isFirst,);
+                  Navigator.popUntil(
+                    context,
+                    (route) => route.isFirst,
+                  );
                   Navigator.push(
                       context,
                       CupertinoPageRoute(
                         builder: (context) => const LandingPage(),
-                      )).whenComplete(() => setState(() {}),);
+                      )).whenComplete(
+                    () => setState(() {}),
+                  );
                 },
               );
             },
@@ -78,7 +87,11 @@ class LocaleTiles extends StatefulWidget {
   final Color color;
   final String countryName;
   const LocaleTiles(
-      {super.key, required this.localeName, required this.svgPath, required this.color, required this.countryName});
+      {super.key,
+      required this.localeName,
+      required this.svgPath,
+      required this.color,
+      required this.countryName});
 
   @override
   State<LocaleTiles> createState() => _LocaleTilesState();
@@ -99,9 +112,15 @@ class _LocaleTilesState extends State<LocaleTiles> {
           SizedBox(
             height: MediaQuery.sizeOf(context).width * 0.25,
             width: MediaQuery.sizeOf(context).width * 0.15,
-            child: SvgPicture.asset(widget.svgPath,fit: BoxFit.fitWidth,),
+            child: SvgPicture.asset(
+              widget.svgPath,
+              fit: BoxFit.fitWidth,
+            ),
           ),
-          Text(widget.countryName,style: Theme.of(context).textTheme.titleMedium,)
+          Text(
+            widget.countryName,
+            style: Theme.of(context).textTheme.titleMedium,
+          )
         ],
       ),
     );

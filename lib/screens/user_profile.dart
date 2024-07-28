@@ -1,7 +1,8 @@
 import 'dart:io';
-
 import 'package:csc_picker_i18n/csc_picker.dart';
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:hive_flutter/adapters.dart';
 
 class UserProfile extends StatefulWidget {
@@ -13,11 +14,44 @@ class UserProfile extends StatefulWidget {
 
 class _UserProfileState extends State<UserProfile> {
   final TextEditingController _name = TextEditingController();
-  final TextEditingController _email = TextEditingController(
-      text: Hive.box("UserData").get("personalInfo", defaultValue: "")["email"]);
+  TextEditingController? _email;
+
+  List<String>? interests;
   String? city = " ";
   String country = " ";
   String? state = " ";
+
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    _email = TextEditingController(
+        text: Hive.box("UserData").get("personalInfo", defaultValue: "")["email"]);
+    interests = Hive.box("UserData").get("interests",defaultValue: <String>[]);
+    super.initState();
+  }
+
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    _name.dispose();
+    _email?.dispose();
+    super.dispose();
+  }
+
+  void pickProfilePicture() async{
+    FilePickerResult? result = await FilePicker.platform.pickFiles();
+
+    if (result != null) {
+      File file = File(result.files.single.path!);
+      Uint8List rawData = await file.readAsBytes();
+      Hive.box("UserData").put("UserImage", rawData).whenComplete(() => setState(() {}),);
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("No image selected")));
+    }
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -30,8 +64,19 @@ class _UserProfileState extends State<UserProfile> {
         length: 3,
         child: Column(
           children: [
-            CircleAvatar(
-              radius: MediaQuery.sizeOf(context).width * 0.2,
+            InkWell(
+              onTap: () => pickProfilePicture(),
+              child: Hero(
+                tag: "UserPfp",
+                child: CircleAvatar(
+                  radius: MediaQuery.sizeOf(context).width * 0.15,
+                  backgroundImage: MemoryImage(Hive.box("UserData").get("UserImage",defaultValue: null)),
+
+                  onBackgroundImageError: (exception, stackTrace) {
+                    ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(exception.toString())));
+                  },
+                ),
+              ),
             ),
             const Divider(
               color: Colors.transparent,
@@ -114,20 +159,24 @@ class _UserProfileState extends State<UserProfile> {
                     padding: const EdgeInsets.all(16),
                     children: [
                       // TODO : Show an option to add qualification and display them in tiles first school second highschool then graduation, post grdauation,etc
-                      DecoratedBox(decoration: BoxDecoration(
-                        color: Colors.grey.withOpacity(0.3),
-                        borderRadius: BorderRadius.circular(10)
-                      ),
-                      child: Padding(
-                        padding: const EdgeInsets.all(16.0),
-                        child: Column(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            Icon(Icons.add_circle_outline_outlined,size: Theme.of(context).textTheme.displayMedium!.fontSize,color: Colors.grey,),
-                            Text("Add qualification")
-                          ],
+                      DecoratedBox(
+                        decoration: BoxDecoration(
+                            color: Colors.grey.withOpacity(0.3),
+                            borderRadius: BorderRadius.circular(10)),
+                        child: Padding(
+                          padding: const EdgeInsets.all(16.0),
+                          child: Column(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Icon(
+                                Icons.add_circle_outline_outlined,
+                                size: Theme.of(context).textTheme.displayMedium!.fontSize,
+                                color: Colors.grey,
+                              ),
+                              const Text("Add qualification")
+                            ],
+                          ),
                         ),
-                      ),
                       )
                     ],
                   ),

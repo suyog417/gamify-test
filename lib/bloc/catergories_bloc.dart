@@ -55,9 +55,11 @@ class CategoriesBloc extends Cubit<CategoriesStates> {
     switch (sortBy) {
       case "A-Z":
         {
-          models!.sort((a, b) {
-            return a.categoryName!.compareTo(b.categoryName!);
-          },);
+          models!.sort(
+            (a, b) {
+              return a.categoryName!.compareTo(b.categoryName!);
+            },
+          );
           emit(CategoriesLoadedState(models));
         }
       case "Date":

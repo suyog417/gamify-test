@@ -10,13 +10,13 @@ class ChampionshipCategory {
 
   ChampionshipCategory(
       {this.startDate,
-        this.endDate,
-        this.startTime,
-        this.endTime,
-        this.champId,
-        this.categoryId,
-        this.categoryName,
-        this.champName});
+      this.endDate,
+      this.startTime,
+      this.endTime,
+      this.champId,
+      this.categoryId,
+      this.categoryName,
+      this.champName});
 
   ChampionshipCategory.fromJson(Map<String, dynamic> json) {
     startDate = json['start_date'] ?? "";
@@ -43,7 +43,6 @@ class ChampionshipCategory {
   }
 }
 
-
 class ChampDetails {
   String? modeId;
   String? modeName;
@@ -58,15 +57,15 @@ class ChampDetails {
 
   ChampDetails(
       {this.modeId,
-        this.modeName,
-        this.timeMinutes,
-        this.noOfQuestion,
-        this.champId,
-        this.champName,
-        this.categoryId,
-        this.categoryName,
-        this.teacherId,
-        this.teacherName});
+      this.modeName,
+      this.timeMinutes,
+      this.noOfQuestion,
+      this.champId,
+      this.champName,
+      this.categoryId,
+      this.categoryName,
+      this.teacherId,
+      this.teacherName});
 
   ChampDetails.fromJson(Map<String, dynamic> json) {
     modeId = json['mode_id'];
